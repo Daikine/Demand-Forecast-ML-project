@@ -21,9 +21,9 @@ DATA_PATH = Path("data/sales.csv")
 ART_DIR = Path("artifacts")
 
 
-# ---------------------------
+
 # UI polish
-# ---------------------------
+
 def inject_css():
     st.markdown(
         """
@@ -60,9 +60,9 @@ def inject_css():
         unsafe_allow_html=True,
     )
 
-# ---------------------------
+
 # Data / model loading
-# ---------------------------
+
 @st.cache_data
 def load_data() -> pd.DataFrame:
     df = pd.read_csv(DATA_PATH, parse_dates=["date"]).sort_values(["sku", "date"]).reset_index(drop=True)
@@ -113,9 +113,9 @@ def load_nn_for_sku(sku: str):
         )
     )
 
-    # -------------------------
+   
     # СОЗДАЁМ НОВУЮ МОДЕЛЬ
-    # -------------------------
+    
     state_dict = ckpt["state_dict"]
     # В ранних артефактах hidden_size мог быть сохранён некорректно,
     # поэтому безопаснее восстановить размер LSTM прямо из весов.
@@ -174,9 +174,9 @@ def load_baseline_metrics_for_sku(sku: str):
     pass
 
 
-# ---------------
+
 # Forecast logic
-# ---------------------------
+
 def make_future_frame(
     history: pd.DataFrame,
     horizon: int,
@@ -307,9 +307,9 @@ def plot_forecast(d_hist, y_hist, d_fut, y_base, y_nn, band=None, show_base=True
     return fig
 
 
-# ---------------------------
+
 # App (ИСПРАВЛЕННЫЙ main)
-# ---------------------------
+
 def card(title: str, big: str, sub: str = ""):
     st.markdown(
         f"""
@@ -328,7 +328,7 @@ def main():
     st.set_page_config(page_title="Demand Forecasting", layout="wide")
     inject_css()
 
-    st.markdown("## 🔮 Прогноз спроса на товары (MVP)")
+    st.markdown("##  Прогноз спроса на товары (MVP)")
     st.markdown(
         "<div class='muted'>Сервис прогнозирует спрос на 7–14 дней вперёд. "
         "Сценарий цены/промо влияет на прогноз (LSTM обучена с будущими экзогенными признаками).</div>",
@@ -450,7 +450,7 @@ def main():
         st.pyplot(fig)
 
     with right:
-        st.subheader("🧾 Параметры")
+        st.subheader(" Параметры")
         st.write(f"**SKU:** {sku}")
         st.write(f"**Horizon:** {horizon} дней")
         st.write(f"**Lookback модели:** {lookback_ckpt} дней")  # показываем фиксированный lookback
@@ -462,12 +462,9 @@ def main():
     # Метрики
     if show_metrics:
         st.divider()
-        st.subheader("📊 Метрики (на тесте)")
+        st.subheader(" Метрики (на тесте)")
 
-        bm = load_baseline_metrics_for_sku(sku)
-        if bm:
-            st.caption("Baseline MA(7)")
-            st.json(bm)
+       
 
         if nn_metrics:
             st.caption("LSTM")
@@ -482,7 +479,7 @@ def main():
     # Сравнение сценариев B
     if enable_b and model_pack is not None:
         st.divider()
-        st.subheader("🆚 Сравнение сценариев A vs B (LSTM)")
+        st.subheader(" Сравнение сценариев A vs B (LSTM)")
 
         model, fs, ts, fcols, lookback_ckpt, horizon_ckpt, target_transform, _ = model_pack
         fut_b = make_future_frame(hist, horizon, price_mult_b, promo_days_b, promo_where_b_key)
