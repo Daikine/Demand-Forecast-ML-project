@@ -514,7 +514,7 @@ def main():
 
     # Download forecast CSV
     st.divider()
-    st.subheader("⬇️ Скачать прогноз")
+    st.subheader(" Скачать прогноз")
     out = pd.DataFrame({"date": d_fut})
     out["baseline_ma7"] = base
     if nn is not None:
