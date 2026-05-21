@@ -445,7 +445,7 @@ def main():
     left, right = st.columns([2, 1])
 
     with left:
-        st.subheader("📈 История + прогноз")
+        st.subheader(" История + прогноз")
         fig = plot_forecast(d_hist, y_hist, d_fut, base, nn, band=band, show_base=show_base, show_nn=show_nn)
         st.pyplot(fig)
 
